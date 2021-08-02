@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace address_book_web
 {
     [TestFixture]
-    public class GroupCreationTest
+    public class GroupCreationTests
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -21,7 +21,7 @@ namespace address_book_web
         public void SetupTest()
         {
             driver = new FirefoxDriver();
-            baseURL = "http://localhost/addressbook/";
+            baseURL = "http://localhost/";
             verificationErrors = new StringBuilder();
         }
 
@@ -40,34 +40,65 @@ namespace address_book_web
         }
 
         [Test]
-        public void TheGroupCreationTest()
+        public void GroupCreationTest()
         {
-            driver.Navigate().GoToUrl(baseURL);
+
+            OpenHomePage();
+            UserAutharization("admin","secret");
+            OpenGroupsPage();
+            OpenNewGroupCreationPage();
+            FillGroup("group", "header", "footer");
+            LogOut();
+        }
+
+        private void OpenHomePage()
+        {
+            driver.Navigate().GoToUrl(baseURL + "addressbook/");
+        }
+
+        private void UserAutharization(string login,string password)
+        {
             driver.FindElement(By.Name("user")).Click();
-            driver.FindElement(By.Name("user")).SendKeys("admin");
+            driver.FindElement(By.Name("user")).SendKeys(login);
             driver.FindElement(By.XPath("//*/text()[normalize-space(.)='']/parent::*")).Click();
             driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).SendKeys("secret");
+            driver.FindElement(By.Name("pass")).SendKeys(password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+        }
+
+        private void OpenGroupsPage()
+        {
             driver.FindElement(By.LinkText("groups")).Click();
+        }
+
+
+        private void LogOut()
+        {
+            driver.FindElement(By.LinkText("Logout")).Click();
+        }
+
+        private void OpenNewGroupCreationPage()
+        {
             driver.FindElement(By.Name("new")).Click();
+        }
+
+        private void FillGroup(string groupName, string groupHeader, string groupFooter)
+        {
             driver.FindElement(By.XPath("//form[@action='/addressbook/group.php']")).Click();
             driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Click();
-            // ERROR: Caught exception [ERROR: Unsupported command [doubleClick | name=group_name | ]]
             driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys("group2");
+            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
             driver.FindElement(By.Name("group_header")).Click();
             driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys("group2");
+            driver.FindElement(By.Name("group_header")).SendKeys(groupHeader);
             driver.FindElement(By.Name("group_footer")).Click();
             driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys("group2");
+            driver.FindElement(By.Name("group_footer")).SendKeys(groupFooter);
             driver.FindElement(By.Name("submit")).Click();
-            driver.FindElement(By.LinkText("Logout")).Click();
-
         }
+
+
+
         private bool IsElementPresent(By by)
         {
             try
