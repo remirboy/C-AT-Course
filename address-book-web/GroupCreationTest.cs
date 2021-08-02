@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using address_book_web.Models;
 
 namespace address_book_web
 {
@@ -44,10 +45,17 @@ namespace address_book_web
         {
 
             OpenHomePage();
-            UserAutharization("admin","secret");
+            AccountData user = new AccountData();
+            user.Login = "admin";
+            user.Password = "secret";
+            UserAutharization(user);
             OpenGroupsPage();
             OpenNewGroupCreationPage();
-            FillGroup("group", "header", "footer");
+            GroupData group = new GroupData();
+            group.GroupName = "Name";
+            group.GroupHeader = "Header";
+            group.GroupFooter = "Footer";
+            FillGroup(group);
             LogOut();
         }
 
@@ -56,13 +64,13 @@ namespace address_book_web
             driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
 
-        private void UserAutharization(string login,string password)
+        private void UserAutharization(AccountData user)
         {
             driver.FindElement(By.Name("user")).Click();
-            driver.FindElement(By.Name("user")).SendKeys(login);
+            driver.FindElement(By.Name("user")).SendKeys(user.Login);
             driver.FindElement(By.XPath("//*/text()[normalize-space(.)='']/parent::*")).Click();
             driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).SendKeys(password);
+            driver.FindElement(By.Name("pass")).SendKeys(user.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
@@ -82,18 +90,18 @@ namespace address_book_web
             driver.FindElement(By.Name("new")).Click();
         }
 
-        private void FillGroup(string groupName, string groupHeader, string groupFooter)
+        private void FillGroup(GroupData group)
         {
             driver.FindElement(By.XPath("//form[@action='/addressbook/group.php']")).Click();
             driver.FindElement(By.Name("group_name")).Click();
             driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
+            driver.FindElement(By.Name("group_name")).SendKeys(group.GroupName);
             driver.FindElement(By.Name("group_header")).Click();
             driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(groupHeader);
+            driver.FindElement(By.Name("group_header")).SendKeys(group.GroupHeader);
             driver.FindElement(By.Name("group_footer")).Click();
             driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(groupFooter);
+            driver.FindElement(By.Name("group_footer")).SendKeys(group.GroupFooter);
             driver.FindElement(By.Name("submit")).Click();
         }
 
