@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
-    class Contact
+    public class Contact
     {
         private string name;
         private string middleName;

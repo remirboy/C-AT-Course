@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
-    class GroupData
+    public class GroupData
     {
         private string groupName;
         private string groupHeader;

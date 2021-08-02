@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
-    class AccountData
+    public class AccountData
     {
         private string login;
         private string password;
