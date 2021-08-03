@@ -9,19 +9,14 @@ namespace address_book_web
         [Test]
         public void GroupCreationTest()
         {
-            OpenHomePage();
-            AccountData user = new AccountData();
-            user.Login = "admin";
-            user.Password = "secret";
-            UserAutharization(user);
-            OpenGroupsPage();
-            OpenNewGroupCreationPage();
             GroupData group = new GroupData();
             group.GroupName = "Name";
             group.GroupHeader = "Header";
             group.GroupFooter = "Footer";
-            FillGroup(group);
-            LogOut();
+
+            app.NavigationHelper.OpenGroupsPage();
+            app.GroupHelper.Create(group);
+            app.LoginHelper.LogOut();  
         }
     }
 }

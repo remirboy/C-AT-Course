@@ -17,19 +17,14 @@ namespace address_book_web
         [Test]
         public void ContactCreationTest()
         {
-            OpenContactCreationPage();
-            AccountData user = new AccountData();
-            user.Login = "admin";
-            user.Password = "secret";
-            UserAutharization(user);
             Contact contact = new Contact();
             contact.Name = "Remir";
             contact.MiddleName = "Ziyatdinov";
-            EnterName(contact.Name);
-            EnterMiddleName(contact.MiddleName);
-            SubmitContactCreation();
+
+            app.NavigationHelper.OpenContactCreationPage();
+            app.ContactHelper.Create(contact);
             Thread.Sleep(3000);
-            LogOut();
+            app.LoginHelper.LogOut();
         }
     }
 }
