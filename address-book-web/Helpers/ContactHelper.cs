@@ -5,6 +5,7 @@ using address_book_web.Models;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System.Threading;
 
 namespace address_book_web.Helpers
 {
@@ -20,6 +21,23 @@ namespace address_book_web.Helpers
             return this;
         }
 
+        public ContactHelper UpdateContactNameAndMiddleName(Contact contact)
+        {
+            ChooseContact();
+            InputName(contact.Name);
+            InputMiddleName(contact.MiddleName);
+            SubmitContactUpdate();
+            return this;
+        }
+
+        public ContactHelper Delete()
+        {
+            ChooseContact();
+            SubmitContactDelete();
+            return this;
+        }
+
+
         private ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -28,13 +46,23 @@ namespace address_book_web.Helpers
 
         private ContactHelper FillContact(Contact contact)
         {
+            InputName(contact.Name);
+            InputMiddleName(contact.MiddleName);
+            return this;
+        }
+
+        private void InputName(string name)
+        {
             driver.FindElement(By.Name("firstname")).Click();
             driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Name);
+            driver.FindElement(By.Name("firstname")).SendKeys(name);
+        }
+
+        private void InputMiddleName(string middleName)
+        {
             driver.FindElement(By.Name("middlename")).Click();
             driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.MiddleName);
-            return this;
+            driver.FindElement(By.Name("middlename")).SendKeys(middleName);
         }
 
         private ContactHelper SubmitContactCreation()
@@ -42,5 +70,27 @@ namespace address_book_web.Helpers
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
             return this;
         }
+
+        private ContactHelper ChooseContact()
+        {
+          
+            driver.FindElement(By.XPath("//*[@id=\"16\"]")).Click();
+            driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a")).Click();
+            return this;
+        }
+
+        private ContactHelper SubmitContactUpdate()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        private ContactHelper SubmitContactDelete()
+        {
+          
+            driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/input[2]")).Click();
+            return this;
+        }
+
     }
 }

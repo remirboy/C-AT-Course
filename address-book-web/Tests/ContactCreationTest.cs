@@ -8,6 +8,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using address_book_web.Models;
 
+
 namespace address_book_web 
 {
     [TestFixture]
@@ -24,6 +25,24 @@ namespace address_book_web
             app.NavigationHelper.OpenContactCreationPage();
             app.ContactHelper.Create(contact);
             Thread.Sleep(3000);
+            app.LoginHelper.LogOut();
+        }
+
+        [Test]
+        public void ContactDeleteTest()
+        { 
+            app.ContactHelper.Delete();
+            app.LoginHelper.LogOut();
+        }
+
+        [Test]
+        public void ContactNameAndMiddleNameUpdateTest()
+        {
+            Contact contact = new Contact();
+            contact.Name = "Dima";
+            contact.MiddleName = "Morozov";
+
+            app.ContactHelper.UpdateContactNameAndMiddleName(contact);
             app.LoginHelper.LogOut();
         }
     }

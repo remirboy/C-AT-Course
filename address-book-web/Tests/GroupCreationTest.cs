@@ -18,5 +18,24 @@ namespace address_book_web
             app.GroupHelper.Create(group);
             app.LoginHelper.LogOut();  
         }
+
+        [Test]
+        public void GroupDeleteTest()
+        {
+            app.NavigationHelper.OpenGroupsPage();
+            app.GroupHelper.Delete();
+            app.LoginHelper.LogOut();
+        }
+
+        [Test]
+        public void GroupNameUpdateTest()
+        {
+            GroupData group = new GroupData();
+            group.GroupName = "Name2";
+           
+            app.NavigationHelper.OpenGroupsPage();
+            app.GroupHelper.UpdateName(group);
+            app.LoginHelper.LogOut();
+        }
     }
 }

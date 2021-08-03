@@ -15,31 +15,64 @@ namespace address_book_web.Helpers
         public GroupHelper Create(GroupData group)
         {
             InitGroupCreation();
-            FillGroup(group);
+            FillNewGroup(group);
             SubmitGroupCreation();
             return this;
         }
-          
 
-        private GroupHelper InitGroupCreation()
+        public GroupHelper UpdateName(GroupData group)
         {
-            driver.FindElement(By.Name("new")).Click();
+            ChooseGroup();
+            UpdateClick();
+            EditGroupName(group);
+            SubmitGroupNameUpdate();
             return this;
         }
 
-        private GroupHelper FillGroup(GroupData group)
+        public GroupHelper Delete()
         {
-            driver.FindElement(By.XPath("//form[@action='/addressbook/group.php']")).Click();
+            ChooseGroup();
+            DeleteClick();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+
+        private GroupHelper FillNewGroup(GroupData group)
+        {
+            FindGroupForm();
+            InputGroupName(group.GroupName);
+            InputGroupHeader(group.GroupHeader);
+            InputGroupFooter(group.GroupFooter);
+            return this;
+        }
+
+        private GroupHelper EditGroupName(GroupData group)
+        {
+            FindGroupForm();
+            InputGroupName(group.GroupName);
+            return this;
+        }
+
+        private void InputGroupName(string groupName)
+        {
             driver.FindElement(By.Name("group_name")).Click();
             driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.GroupName);
+            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
+        }
+
+        private void InputGroupHeader(string groupHeader)
+        {
             driver.FindElement(By.Name("group_header")).Click();
             driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.GroupHeader);
+            driver.FindElement(By.Name("group_header")).SendKeys(groupHeader);
+        }
+
+        private void InputGroupFooter(string groupFooter)
+        {
             driver.FindElement(By.Name("group_footer")).Click();
             driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.GroupFooter);
-            return this;
+            driver.FindElement(By.Name("group_footer")).SendKeys(groupFooter);
         }
 
         private GroupHelper SubmitGroupCreation()
@@ -47,5 +80,47 @@ namespace address_book_web.Helpers
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
+
+        private GroupHelper SubmitGroupNameUpdate()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        private GroupHelper ChooseGroup()
+        {
+            driver.FindElement(By.XPath("/html/body/div/div[4]/form/span[1]/input")).Click();
+            return this;
+        }
+
+        private GroupHelper InitGroupCreation()
+        {
+            driver.FindElement(By.Name("new")).Click();
+            return this;
+        }
+
+        private GroupHelper DeleteClick()
+        {
+            driver.FindElement(By.Name("delete")).Click();
+            return this;
+        }
+
+        private GroupHelper UpdateClick()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        private GroupHelper FindGroupForm()
+        {
+            driver.FindElement(By.XPath("//form[@action='/addressbook/group.php']")).Click();
+            return this;
+        }
+
+        private void ReturnToGroupsPage()
+        {
+            driver.FindElement(By.LinkText("group page")).Click();
+        }
     }
 }
+//
