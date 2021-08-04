@@ -10,9 +10,9 @@ namespace address_book_web.Tests
 
         [Test]
         public void LogoutTest()
-        {
-            app.NavigationHelper.OpenHomePage();
+        {     
             app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
     }
 }

@@ -2,31 +2,18 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using address_book_web.Managers;
 using address_book_web.Models;
+using address_book_web.Tests;
 
-namespace address_book_web
+namespace address_book_web.Tests
 {
-    [TestClass]
     public class TestBase 
     {
-
         protected ApplicationManager app;
 
         [SetUp]
         public void SetupTest()
         {
-            app = new ApplicationManager();
-            app.NavigationHelper.OpenHomePage();
-
-            AccountData user = new AccountData();
-            user.Login = "admin";
-            user.Password = "secret";
-            app.LoginHelper.Login(user);
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
+            app = TestSuiteFixture.app;
         }
 
     }

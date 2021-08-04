@@ -56,23 +56,17 @@ namespace address_book_web.Helpers
 
         private void InputGroupName(string groupName)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
+            InputText("group_name", groupName);
         }
 
         private void InputGroupHeader(string groupHeader)
         {
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(groupHeader);
+            InputText("group_header", groupHeader);
         }
 
         private void InputGroupFooter(string groupFooter)
         {
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(groupFooter);
+            InputText("group_footer", groupFooter);
         }
 
         private GroupHelper SubmitGroupCreation()

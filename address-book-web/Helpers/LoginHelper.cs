@@ -34,11 +34,8 @@ namespace address_book_web.Helpers
 
         private LoginHelper CredentialsInput(AccountData user)
         {
-            driver.FindElement(By.Name("user")).Click();
-            driver.FindElement(By.Name("user")).SendKeys(user.Login);
-            driver.FindElement(By.XPath("//*/text()[normalize-space(.)='']/parent::*")).Click();
-            driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).SendKeys(user.Password);
+            InputText("user", user.Login);
+            InputText("pass", user.Password);
             return this;
         }
 

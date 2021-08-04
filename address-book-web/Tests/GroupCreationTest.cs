@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using address_book_web.Models;
 
-namespace address_book_web
+namespace address_book_web.Tests
 {
     [TestFixture]
     public class GroupCreationTests : TestBase
@@ -16,7 +16,7 @@ namespace address_book_web
 
             app.NavigationHelper.OpenGroupsPage();
             app.GroupHelper.Create(group);
-            app.LoginHelper.LogOut();  
+            app.NavigationHelper.OpenHomePage();
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace address_book_web
         {
             app.NavigationHelper.OpenGroupsPage();
             app.GroupHelper.Delete();
-            app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace address_book_web
            
             app.NavigationHelper.OpenGroupsPage();
             app.GroupHelper.UpdateName(group);
-            app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
     }
 }

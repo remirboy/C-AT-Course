@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.UI;
 using address_book_web.Models;
 
 
-namespace address_book_web 
+namespace address_book_web.Tests
 {
     [TestFixture]
     public class ContactsCreationTest : TestBase
@@ -24,15 +24,14 @@ namespace address_book_web
 
             app.NavigationHelper.OpenContactCreationPage();
             app.ContactHelper.Create(contact);
-            Thread.Sleep(3000);
-            app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
 
         [Test]
         public void ContactDeleteTest()
         { 
             app.ContactHelper.Delete();
-            app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
 
         [Test]
@@ -43,7 +42,7 @@ namespace address_book_web
             contact.MiddleName = "Morozov";
 
             app.ContactHelper.UpdateContactNameAndMiddleName(contact);
-            app.LoginHelper.LogOut();
+            app.NavigationHelper.OpenHomePage();
         }
     }
 }

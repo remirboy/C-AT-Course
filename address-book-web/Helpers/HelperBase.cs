@@ -17,5 +17,16 @@ namespace address_book_web.Helpers
             this.driver = driver;
         }
 
+        protected void InputText(string location, string text)
+        {
+            if (text != null)
+            {
+                driver.FindElement(By.Name(location)).Click();
+                driver.FindElement(By.Name(location)).Clear();
+                driver.FindElement(By.Name(location)).SendKeys(text);
+            }
+           
+        }
+
     }
 }

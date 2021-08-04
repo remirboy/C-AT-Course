@@ -53,16 +53,12 @@ namespace address_book_web.Helpers
 
         private void InputName(string name)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(name);
+            InputText("firstname", name);
         }
 
         private void InputMiddleName(string middleName)
         {
-            driver.FindElement(By.Name("middlename")).Click();
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(middleName);
+            InputText("middlename", middleName);
         }
 
         private ContactHelper SubmitContactCreation()
