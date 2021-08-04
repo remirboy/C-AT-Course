@@ -2,6 +2,7 @@
 using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System.Threading;
 
 namespace address_book_web.Managers
 {
@@ -66,8 +67,9 @@ namespace address_book_web.Managers
             }
         }
 
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        public ApplicationManager()
+        private ApplicationManager()
         {
             driver = new FirefoxDriver();
             baseURL = "http://localhost/";
@@ -78,7 +80,7 @@ namespace address_book_web.Managers
             contactHelper = new ContactHelper(driver);
         }
 
-        public void Stop()
+        ~ApplicationManager()
         {
             try
             {
@@ -87,7 +89,18 @@ namespace address_book_web.Managers
             catch (Exception)
             {
                 // Ignore errors if unable to close the browser
-            } 
-        } 
+            }
+        }
+
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                app.Value = new ApplicationManager();
+            }
+            return app.Value;
+        }
+
+
     }
 }

@@ -13,7 +13,7 @@ namespace address_book_web.Tests
         [SetUp]
         public void SetupTest()
         {
-            app = TestSuiteFixture.app;
+            app = ApplicationManager.GetInstance();
         }
 
     }

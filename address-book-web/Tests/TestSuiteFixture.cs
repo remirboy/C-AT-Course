@@ -9,24 +9,18 @@ namespace address_book_web.Tests
     [SetUpFixture]
     public class TestSuiteFixture
     {
-        public static ApplicationManager app;
-
         [SetUp]
         public void GlobalSetup() 
         {
-            app = new ApplicationManager();
+            ApplicationManager app = ApplicationManager.GetInstance();
+
+
             app.NavigationHelper.OpenHomePage();
 
             AccountData user = new AccountData();
             user.Login = "admin";
             user.Password = "secret";
             app.LoginHelper.Login(user);
-        }
-
-        [TearDown]
-        public void GlobalTeardown()
-        {
-            app.Stop(); 
         }
     }
 }
