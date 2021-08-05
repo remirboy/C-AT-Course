@@ -11,7 +11,7 @@ namespace address_book_web.Tests
         protected ApplicationManager app;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupAppliationManager()
         {
             app = ApplicationManager.GetInstance();
         }

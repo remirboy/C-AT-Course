@@ -20,7 +20,8 @@ namespace address_book_web.Helpers
 
         public void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL + "addressbook/");
+            if (!IsPageOpen("addressbook/"))
+                driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
 
         public void OpenGroupsPage()
@@ -30,8 +31,18 @@ namespace address_book_web.Helpers
 
         public void OpenContactCreationPage()
         {
-            driver.Navigate().GoToUrl(baseURL + "addressbook/edit.php");
+            if(!IsPageOpen("addressbook/edit.php"))
+                driver.Navigate().GoToUrl(baseURL + "addressbook/edit.php");
         }
+
+        private bool IsPageOpen(string page)
+        {
+            if (driver.Url == baseURL + page)
+                return true;
+            else
+                return false;
+        }
+
 
     }
 }

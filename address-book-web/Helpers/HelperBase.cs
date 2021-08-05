@@ -1,10 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
-using address_book_web.Models;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+﻿using OpenQA.Selenium;
 
 namespace address_book_web.Helpers
 {
@@ -26,6 +20,21 @@ namespace address_book_web.Helpers
                 driver.FindElement(By.Name(location)).SendKeys(text);
             }
            
+        }
+
+     
+
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
 
     }

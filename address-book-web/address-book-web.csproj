@@ -79,7 +79,7 @@
     <Compile Include="Tests\ContactCreationTest.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="Tests\LoginTest.cs" />
-    <Compile Include="Tests\TestSuiteFixture.cs" />
+    <Compile Include="Tests\AuthTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
-using address_book_web.Models;
+﻿using address_book_web.Models;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System;
 
 namespace address_book_web.Helpers
 {
@@ -13,11 +11,18 @@ namespace address_book_web.Helpers
         
         public LoginHelper(IWebDriver driver) : base(driver) { }
 
-        public LoginHelper Login(AccountData user)
+        public void Login(AccountData user)
         {
+            if (IsLoggedIn())
+            {
+                if (IsUserLoggedIn(user)) {
+                    return;
+                }
+
+                LogOut();
+            }
             CredentialsInput(user);
             LoginSubmit();
-            return this;
         }
 
         public LoginHelper LogOut()
@@ -25,6 +30,21 @@ namespace address_book_web.Helpers
             ClickLogOut();
             return this;
         }
+
+        public bool IsLoggedIn()
+        {
+            return IsElementPresent(By.LinkText("Logout"));
+        }
+
+        public bool IsUserLoggedIn(AccountData User)
+        {
+            return IsLoggedIn() && 
+               driver.FindElement(By.XPath("/html/body/div/div[1]/form/b")).Text
+               == "(" + User.Login+")"
+               ;
+        }
+
+        //this methods works with UI
 
         private LoginHelper ClickLogOut()
         {

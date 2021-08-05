@@ -12,7 +12,7 @@ using address_book_web.Models;
 namespace address_book_web.Tests
 {
     [TestFixture]
-    public class ContactsCreationTest : TestBase
+    public class ContactsCreationTest : AuthTestBase
     {
 
         [Test]

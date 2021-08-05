@@ -4,7 +4,7 @@ using address_book_web.Models;
 namespace address_book_web.Tests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
         [Test]
         public void GroupCreationTest()
