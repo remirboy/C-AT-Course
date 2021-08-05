@@ -5,11 +5,15 @@ using address_book_web.Models;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System.Threading;
 
 namespace address_book_web.Helpers
 {
     public class GroupHelper:HelperBase
     {
+
+        private GroupData groupReserve = new GroupData("Name","Header","Footer");
+
         public GroupHelper(IWebDriver driver) : base(driver) { }
 
         public GroupHelper Create(GroupData group)
@@ -20,21 +24,38 @@ namespace address_book_web.Helpers
             return this;
         }
 
-        public GroupHelper UpdateName(GroupData group)
+        public void UpdateName(GroupData group)
         {
-            ChooseGroup();
-            UpdateClick();
-            EditGroupName(group);
-            SubmitGroupNameUpdate();
-            return this;
+            if (IsElementPresent(By.XPath("/html/body/div/div[4]/form/span[1]/input")))
+            {
+                ChooseGroup();
+                UpdateClick();
+                EditGroupName(group);
+                SubmitGroupNameUpdate();
+            }
+            else
+            {
+                Create(groupReserve);
+                ReturnToGroupsPage();
+                UpdateName(group);
+            }
+            
         }
 
-        public GroupHelper Delete()
+        public void Delete()
         {
-            ChooseGroup();
-            DeleteClick();
-            ReturnToGroupsPage();
-            return this;
+            if (IsElementPresent(By.XPath("/html/body/div/div[4]/form/span[1]/input")))
+            {
+                ChooseGroup();
+                DeleteClick();
+                ReturnToGroupsPage();
+            }
+            else
+            {
+                Create(groupReserve);
+                ReturnToGroupsPage();
+                Delete();
+            }
         }
 
 

@@ -35,7 +35,11 @@ namespace address_book_web.Models
             }
         }
 
-        public Contact(string name, string middleName) { }
+        public Contact(string name, string middleName)
+        {
+            this.name = name;
+            this.middleName = middleName;
+        }
         public Contact() { }
 
     }

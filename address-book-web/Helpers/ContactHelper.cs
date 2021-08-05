@@ -1,16 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
-using address_book_web.Models;
-using NUnit.Framework;
+﻿using address_book_web.Models;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using System.Threading;
 
 namespace address_book_web.Helpers
 {
     public class ContactHelper : HelperBase
     {
+
+        private Contact contactReserve = new Contact("Name","MiddleName");
+
         public ContactHelper(IWebDriver driver) : base(driver) { }
 
         public ContactHelper Create(Contact contact)
@@ -21,20 +18,38 @@ namespace address_book_web.Helpers
             return this;
         }
 
-        public ContactHelper UpdateContactNameAndMiddleName(Contact contact)
+        public void UpdateContactNameAndMiddleName(Contact contact)
         {
-            ChooseContact();
-            InputName(contact.Name);
-            InputMiddleName(contact.MiddleName);
-            SubmitContactUpdate();
-            return this;
+            if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
+            {
+                ChooseContact();
+                InputName(contact.Name);
+                InputMiddleName(contact.MiddleName);
+                SubmitContactUpdate();
+            }
+            else
+            {
+                Create(contactReserve);
+                OpenHomePage();
+                UpdateContactNameAndMiddleName(contact);
+            }
+
         }
 
-        public ContactHelper Delete()
+        public void Delete()
         {
-            ChooseContact();
-            SubmitContactDelete();
-            return this;
+            if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
+            {
+                ChooseContact();
+                SubmitContactDelete();
+            }
+            else
+            {
+                Create(contactReserve);
+                OpenHomePage();
+                Delete();
+            }
+
         }
 
 
@@ -70,7 +85,7 @@ namespace address_book_web.Helpers
         private ContactHelper ChooseContact()
         {
           
-            driver.FindElement(By.XPath("//*[@id=\"16\"]")).Click();
+            driver.FindElement(By.XPath("//table/tbody//input[1]")).Click();
             driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a")).Click();
             return this;
         }
@@ -86,6 +101,11 @@ namespace address_book_web.Helpers
           
             driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/input[2]")).Click();
             return this;
+        }
+
+        private void OpenHomePage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
         }
 
     }
