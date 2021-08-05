@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using address_book_web.Models;
+using System.Collections.Generic;
 
 namespace address_book_web.Tests
 {
@@ -15,16 +16,27 @@ namespace address_book_web.Tests
             group.GroupFooter = "Footer";
 
             app.NavigationHelper.OpenGroupsPage();
+            List<GroupData> oldGroups = app.GroupHelper.GetGroupsList();
             app.GroupHelper.Create(group);
+
+            List<GroupData> newGroups = app.GroupHelper.GetGroupsList();
             app.NavigationHelper.OpenHomePage();
+
+            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
         }
 
         [Test]
         public void GroupDeleteTest()
         {
             app.NavigationHelper.OpenGroupsPage();
+
+            List<GroupData> oldGroups = app.GroupHelper.GetGroupsList();
             app.GroupHelper.Delete();
+
+            List<GroupData> newGroups = app.GroupHelper.GetGroupsList();
             app.NavigationHelper.OpenHomePage();
+
+            Assert.AreEqual(oldGroups.Count - 1, newGroups.Count);
         }
 
         [Test]
@@ -34,8 +46,13 @@ namespace address_book_web.Tests
             group.GroupName = "Name2";
            
             app.NavigationHelper.OpenGroupsPage();
+            List<GroupData> oldGroups = app.GroupHelper.GetGroupsList();
             app.GroupHelper.UpdateName(group);
+
+            List<GroupData> newGroups = app.GroupHelper.GetGroupsList();
             app.NavigationHelper.OpenHomePage();
+
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }
 }

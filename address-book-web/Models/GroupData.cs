@@ -54,6 +54,12 @@ namespace address_book_web.Models
             this.groupHeader = groupHeader;
             this.groupFooter = groupFooter;
         }
+
+        public GroupData(string groupName)
+        {
+            this.groupName = groupName;
+        }
+
         public GroupData() { }
     }
 }

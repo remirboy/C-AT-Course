@@ -1,5 +1,6 @@
 ﻿using address_book_web.Models;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace address_book_web.Helpers
 {
@@ -106,6 +107,16 @@ namespace address_book_web.Helpers
         private void OpenHomePage()
         {
             driver.FindElement(By.LinkText("home")).Click();
+        }
+
+        public List<Contact> GetContactsList()
+        {
+            List<Contact> contacts = new List<Contact>();
+            driver.FindElement(By.LinkText("home")).Click();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[@name='entry']"));
+            foreach (IWebElement element in elements)
+                contacts.Add(new Contact(element.Text));
+            return contacts;
         }
 
     }

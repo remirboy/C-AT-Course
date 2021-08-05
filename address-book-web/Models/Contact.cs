@@ -40,6 +40,13 @@ namespace address_book_web.Models
             this.name = name;
             this.middleName = middleName;
         }
+
+        public Contact(string name)
+        {
+            this.name = name;
+        }
+
+
         public Contact() { }
 
     }

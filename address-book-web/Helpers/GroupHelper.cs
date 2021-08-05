@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace address_book_web.Helpers
 {
@@ -75,6 +76,18 @@ namespace address_book_web.Helpers
             return this;
         }
 
+        public List<GroupData> GetGroupsList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            driver.FindElement(By.LinkText("groups")).Click();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+                groups.Add(new GroupData(element.Text));
+            return groups;
+        }
+
+        // UI/UX methods
+
         private void InputGroupName(string groupName)
         {
             InputText("group_name", groupName);
@@ -138,4 +151,3 @@ namespace address_book_web.Helpers
         }
     }
 }
-//
