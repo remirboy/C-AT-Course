@@ -23,6 +23,12 @@ namespace address_book_web.Tests
             app.NavigationHelper.OpenHomePage();
 
             Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            newGroups.Sort();
+            oldGroups.Sort();
+            
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -31,7 +37,7 @@ namespace address_book_web.Tests
             app.NavigationHelper.OpenGroupsPage();
 
             List<GroupData> oldGroups = app.GroupHelper.GetGroupsList();
-            app.GroupHelper.Delete();
+            app.GroupHelper.Delete(1);
 
             List<GroupData> newGroups = app.GroupHelper.GetGroupsList();
             app.NavigationHelper.OpenHomePage();

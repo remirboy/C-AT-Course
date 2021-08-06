@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
-    public class GroupData
+    public class GroupData : IEquatable<GroupData>,IComparable<GroupData> 
     {
         private string groupName;
         private string groupHeader;
@@ -61,5 +61,33 @@ namespace address_book_web.Models
         }
 
         public GroupData() { }
+
+        public int CompareTo(GroupData group)
+        {
+            if (Object.ReferenceEquals(null, group))
+                return 1;
+            return GroupName.CompareTo(group.GroupName);
+
+        }
+
+        public bool Equals(GroupData otherGroup)
+        {
+            if (Object.ReferenceEquals(otherGroup, null))
+                return false;
+            if (Object.ReferenceEquals(this, otherGroup))
+                return true;
+            return GroupName == otherGroup.GroupName;
+        }
+
+        public override int GetHashCode()
+        {
+            return GroupName.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "name:"+ GroupName;
+        }
+
     }
 }

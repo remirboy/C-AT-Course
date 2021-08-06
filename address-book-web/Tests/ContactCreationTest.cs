@@ -25,17 +25,25 @@ namespace address_book_web.Tests
 
             Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
 
+            oldContacts.Add(contact);
+            newContacts.Sort();
+            oldContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
+
         }
 
         [Test]
         public void ContactDeleteTest()
         {
+
             List<Contact> oldContacts = app.ContactHelper.GetContactsList();
-            app.ContactHelper.Delete();
+            app.ContactHelper.Delete(1);
             app.NavigationHelper.OpenHomePage();
             List<Contact> newContacts = app.ContactHelper.GetContactsList();
 
             Assert.AreEqual(oldContacts.Count - 1, newContacts.Count);
+
         }
 
         [Test]

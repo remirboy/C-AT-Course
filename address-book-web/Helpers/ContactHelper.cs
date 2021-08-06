@@ -24,7 +24,7 @@ namespace address_book_web.Helpers
         {
             if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
             {
-                ChooseContact();
+                ChooseContact(1);
                 InputName(contact.Name);
                 InputMiddleName(contact.LastName);
                 SubmitContactUpdate();
@@ -38,18 +38,18 @@ namespace address_book_web.Helpers
 
         }
 
-        public void Delete()
+        public void Delete(int contactIndex)
         {
             if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
             {
-                ChooseContact();
+                ChooseContact(contactIndex);
                 SubmitContactDelete();
             }
             else
             {
                 Create(contactReserve);
                 OpenHomePage();
-                Delete();
+                Delete(contactIndex);
             }
 
         }
@@ -81,13 +81,14 @@ namespace address_book_web.Helpers
         private ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
+            contactCache = null;
             return this;
         }
 
-        private ContactHelper ChooseContact()
+        private ContactHelper ChooseContact(int contactIndex)
         {
           
-            driver.FindElement(By.XPath("//table/tbody//input[1]")).Click();
+            driver.FindElement(By.XPath("//table/tbody//input["+ contactIndex +"]")).Click();
             driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a")).Click();
             return this;
         }
@@ -95,6 +96,7 @@ namespace address_book_web.Helpers
         private ContactHelper SubmitContactUpdate()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -102,6 +104,7 @@ namespace address_book_web.Helpers
         {
           
             driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/input[2]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -110,30 +113,25 @@ namespace address_book_web.Helpers
             driver.FindElement(By.LinkText("home")).Click();
         }
 
+        private List<Contact> contactCache = null;
+
         public List<Contact> GetContactsList()
         {
-            List<Contact> contacts = new List<Contact>();
+            contactCache = new List<Contact>();
             driver.FindElement(By.LinkText("home")).Click();
-
 
             ICollection<IWebElement> names = driver.FindElements(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[@name='entry']/td[3]"));
             IWebElement[] namesArray = new IWebElement[names.Count];
-            Console.WriteLine(names.Count);
             names.CopyTo(namesArray, 0);
 
             ICollection<IWebElement> lastNames = driver.FindElements(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[@name='entry']/td[2]"));
             IWebElement[] lastNamesArray = new IWebElement[lastNames.Count];
-            Console.WriteLine(lastNames.Count);
-
             lastNames.CopyTo(lastNamesArray, 0);
+
             if (names.Count == lastNames.Count)        
                 for (int i=0;i<namesArray.Length;i++)
-                {
-                    Console.WriteLine(namesArray[i].Text);
-                    Console.WriteLine(lastNamesArray[i].Text);
-                    contacts.Add(new Contact() { Name = namesArray[i].Text, LastName = lastNamesArray[i].Text});
-                }
-            return contacts;
+                    contactCache.Add(new Contact() { Name = namesArray[i].Text, LastName = lastNamesArray[i].Text});
+            return new List<Contact>(contactCache);
         }
     }
 }
