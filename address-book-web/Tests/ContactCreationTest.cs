@@ -14,7 +14,7 @@ namespace address_book_web.Tests
         {
             Contact contact = new Contact();
             contact.Name = "Remir";
-            contact.MiddleName = "Ziyatdinov";
+            contact.LastName = "Ziyatdinov";
 
             app.NavigationHelper.OpenContactCreationPage();
             List<Contact> oldContacts = app.ContactHelper.GetContactsList();
@@ -43,7 +43,7 @@ namespace address_book_web.Tests
         {
             Contact contact = new Contact();
             contact.Name = "Dima";
-            contact.MiddleName = "Morozov";
+            contact.LastName = "Morozov";
             List<Contact> oldContacts = app.ContactHelper.GetContactsList();
             app.ContactHelper.UpdateContactNameAndMiddleName(contact);
             app.NavigationHelper.OpenHomePage();

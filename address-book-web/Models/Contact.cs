@@ -9,7 +9,7 @@ namespace address_book_web.Models
     public class Contact
     {
         private string name;
-        private string middleName;
+        private string lastName;
 
         public string Name
         {
@@ -23,22 +23,22 @@ namespace address_book_web.Models
             }
         }
 
-        public string MiddleName
+        public string LastName
         {
             get
             {
-                return middleName;
+                return lastName;
             }
             set
             {
-                middleName = value;
+                lastName = value;
             }
         }
 
-        public Contact(string name, string middleName)
+        public Contact(string name, string lastName)
         {
             this.name = name;
-            this.middleName = middleName;
+            this.lastName = lastName;
         }
 
         public Contact(string name)
@@ -46,8 +46,11 @@ namespace address_book_web.Models
             this.name = name;
         }
 
-
         public Contact() { }
-
+        public override string ToString()
+        {
+            return base.ToString() + ": " + name + lastName;
+        }
     }
+
 }
