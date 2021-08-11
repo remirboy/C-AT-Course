@@ -59,5 +59,29 @@ namespace address_book_web.Tests
 
             Assert.AreEqual(oldContacts.Count, newContacts.Count);
         }
+
+        [Test]
+        public void CompareContactTableAndContactFormInformation()
+        {
+            app.NavigationHelper.OpenHomePage();
+
+            Contact contactForm = app.ContactHelper.GetContactInformationFromEditForm();
+           
+            app.NavigationHelper.OpenHomePage();
+            Contact contactTable = app.ContactHelper.GetContactInformationFromTable();
+            Assert.AreEqual(contactForm, contactTable);
+        }
+
+        [Test]
+        public void CompareContactTableAndContactPageInformation()
+        {
+            app.NavigationHelper.OpenHomePage();
+
+            Contact contactForm = app.ContactHelper.GetContactInformationFromContactPage();
+
+            app.NavigationHelper.OpenHomePage();
+            Contact contactTable = app.ContactHelper.GetContactInformationFromTable();
+            Assert.AreEqual(contactForm, contactTable);
+        }
     }
 }

@@ -8,45 +8,62 @@ namespace address_book_web.Models
 {
     public class Contact : IEquatable<Contact>, IComparable<Contact>
     {
-        private string name;
-        private string lastName;
-
-        public string Name
+        public string Address { get; set; }
+        public string HomePhone {get;set;}
+        public string WorkPhone { get; set; }
+        public string MobilePhone { get; set; }
+        public string Email1 { get; set; }
+        public string Email2 { get; set; }
+        public string Email3 { get; set; }
+        public string Emails
         {
             get
             {
-                return name;
+                return Clean(Email1) + Clean(Email2) + Clean(Email3);
             }
             set
             {
-                name = value;
+                Emails = value;
             }
         }
-
-        public string LastName
+              
+        public string Phones
         {
             get
             {
-                return lastName;
+                return Clean(HomePhone) + Clean(WorkPhone) + Clean(MobilePhone);
             }
             set
             {
-                lastName = value;
+                Phones = value;
             }
         }
+
+        public string Name { get; set; }
+
+        public string LastName { get; set; } 
 
         public Contact(string name, string lastName)
         {
-            this.name = name;
-            this.lastName = lastName;
+            Name = name;
+            LastName = lastName; 
         }
 
         public Contact(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
         public Contact() { }
+
+        private string Clean(string phone)
+        {
+            if (phone == null)
+            {
+                return "";
+            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("+", "");
+        }
 
         public int CompareTo(Contact contact)
         {
@@ -65,10 +82,9 @@ namespace address_book_web.Models
             return Name == otherContact.Name && LastName == otherContact.LastName;
         }
 
-
         public override string ToString()
         {
-            return base.ToString() + ": " + name + lastName;
+            return  Name + " "+ LastName + " " + Address + " " + Emails + " " + Phones + ";";
         }
     }
 

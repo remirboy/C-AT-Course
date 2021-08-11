@@ -25,10 +25,12 @@ namespace address_book_web.Helpers
             LoginSubmit();
         }
 
-        public LoginHelper LogOut()
+        public void LogOut()
         {
-            ClickLogOut();
-            return this;
+            if (IsLoggedIn())
+            {
+                ClickLogOut();
+            }
         }
 
         public bool IsLoggedIn()

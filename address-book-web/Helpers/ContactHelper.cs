@@ -2,6 +2,8 @@
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace address_book_web.Helpers
 {
@@ -24,7 +26,7 @@ namespace address_book_web.Helpers
         {
             if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
             {
-                ChooseContact(1);
+                OpenEditContactPage(2);
                 InputName(contact.Name);
                 InputMiddleName(contact.LastName);
                 SubmitContactUpdate();
@@ -42,7 +44,7 @@ namespace address_book_web.Helpers
         {
             if (IsElementPresent(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]")))
             {
-                ChooseContact(contactIndex);
+                OpenEditContactPage(contactIndex);
                 SubmitContactDelete();
             }
             else
@@ -51,7 +53,70 @@ namespace address_book_web.Helpers
                 OpenHomePage();
                 Delete(contactIndex);
             }
+        }
 
+        public Contact GetContactInformationFromTable()
+        {
+            Contact contact = new Contact();
+            contact.Name = FindContactAttributeInformationFromTable(3);
+            contact.LastName = FindContactAttributeInformationFromTable(2);
+            contact.Address = FindContactAttributeInformationFromTable(4);
+            contact.Email1 = FindContactAttributeInformationFromTable(5);
+            contact.MobilePhone = FindContactAttributeInformationFromTable(6);
+            return contact;
+        }
+
+        public Contact GetContactInformationFromEditForm()
+        {
+            Contact contact = new Contact();
+            OpenEditContactPage(2);
+            contact.Name = FindContactAttributeInformationFromEditForm("firstname");
+            contact.LastName = FindContactAttributeInformationFromEditForm("lastname");
+            contact.Address = FindContactAttributeInformationFromEditForm("address");
+            contact.HomePhone = FindContactAttributeInformationFromEditForm("home");
+            contact.MobilePhone = FindContactAttributeInformationFromEditForm("mobile");
+            contact.WorkPhone = FindContactAttributeInformationFromEditForm("work");
+            contact.Email1 = FindContactAttributeInformationFromEditForm("email");
+            contact.Email2 = FindContactAttributeInformationFromEditForm("email2");
+            contact.Email3 = FindContactAttributeInformationFromEditForm("email3");
+            return contact;
+        }
+
+        public Contact GetContactInformationFromContactPage()
+        {
+            Contact contact = new Contact();
+            OpenContactPage(2);
+            string contactInfo = driver.FindElement(By.XPath("//*[@id=\"content\"]")).Text;
+            string[] contactInfoArray = contactInfo.Split(' ');
+
+            contact.Name = contactInfoArray[0];
+
+            string[] nameAndAddress = contactInfoArray[1].Split();
+
+            contact.LastName = nameAndAddress[0];
+            contact.Address = nameAndAddress[2];
+
+
+            string phonePattern = @"\d{1,}";
+
+            Match mHomePhone = Regex.Match(contactInfoArray[2], phonePattern);
+            Match mMobilePhone = Regex.Match(contactInfoArray[3], phonePattern);
+            Match mWorkPhone = Regex.Match(contactInfoArray[4], phonePattern);
+
+            contact.HomePhone = mHomePhone.Value;
+            contact.MobilePhone = mMobilePhone.Value;
+            contact.WorkPhone = mWorkPhone.Value;
+
+
+            string emailPattern = @"(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)";
+
+            MatchCollection emails = Regex.Matches(contactInfoArray[4], emailPattern);   
+            Match[] emailsStr = new Match[emails.Count];
+            emails.CopyTo(emailsStr, 0);
+            contact.Email1 = emailsStr[0].ToString();
+            contact.Email2 = emailsStr[1].ToString();
+            contact.Email3 = emailsStr[2].ToString();
+            return contact;
         }
 
 
@@ -68,6 +133,8 @@ namespace address_book_web.Helpers
             return this;
         }
 
+        // UI\UX block
+
         private void InputName(string name)
         {
             InputText("firstname", name);
@@ -78,6 +145,16 @@ namespace address_book_web.Helpers
             InputText("lastname", middleName);
         }
 
+        private string FindContactAttributeInformationFromTable(int elementIndex)
+        {
+           return driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td["+elementIndex+"]")).Text;
+        }
+
+        private string FindContactAttributeInformationFromEditForm(string name)
+        {
+            return driver.FindElement(By.Name(name)).GetAttribute("value");
+        }
+
         private ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
@@ -85,11 +162,15 @@ namespace address_book_web.Helpers
             return this;
         }
 
-        private ContactHelper ChooseContact(int contactIndex)
+        private ContactHelper OpenEditContactPage(int contactIndex)
         {
-          
-            driver.FindElement(By.XPath("//table/tbody//input["+ contactIndex +"]")).Click();
-            driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a")).Click();
+            driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[" + contactIndex + "]/td[8]/a")).Click();
+            return this;
+        }
+
+        private ContactHelper OpenContactPage(int contactIndex)
+        {
+            driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[" + contactIndex + "]/td[7]/a")).Click();
             return this;
         }
 
@@ -112,6 +193,10 @@ namespace address_book_web.Helpers
         {
             driver.FindElement(By.LinkText("home")).Click();
         }
+
+
+
+        // Contact list block
 
         private List<Contact> contactCache = null;
 

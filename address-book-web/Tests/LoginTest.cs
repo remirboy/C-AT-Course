@@ -33,6 +33,7 @@ namespace address_book_web.Tests
             app.LoginHelper.Login(user);
 
             app.LoginHelper.LogOut();
+            Thread.Sleep(5000);
             Assert.IsFalse(app.LoginHelper.IsLoggedIn());
         }
     }
