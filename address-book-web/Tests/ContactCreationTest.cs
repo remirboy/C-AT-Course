@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using address_book_web.Models;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace address_book_web.Tests
 {
@@ -9,13 +11,15 @@ namespace address_book_web.Tests
     public class ContactsCreationTest : AuthTestBase
     {
 
-        [Test]
-        public void ContactCreationTest()
+        private static IEnumerable<Contact> ContactDataFromJsonFile()
         {
-            Contact contact = new Contact();
-            contact.Name = "Remir";
-            contact.LastName = "Ziyatdinov";
+            return JsonConvert.DeserializeObject<List<Contact>>(
+                File.ReadAllText(@"contacts.json"));
+        }
 
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        public void ContactCreationTest(Contact contact)
+        {
             app.NavigationHelper.OpenContactCreationPage();
             List<Contact> oldContacts = app.ContactHelper.GetContactsList();
             app.ContactHelper.Create(contact);
@@ -38,7 +42,7 @@ namespace address_book_web.Tests
         {
 
             List<Contact> oldContacts = app.ContactHelper.GetContactsList();
-            app.ContactHelper.Delete(1);
+            app.ContactHelper.Delete(3);
             app.NavigationHelper.OpenHomePage();
             List<Contact> newContacts = app.ContactHelper.GetContactsList();
 

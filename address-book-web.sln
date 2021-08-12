@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "address-book-web", "address-book-web\address-book-web.csproj", "{66B2F1F1-F01D-420D-8C76-1B248D082C0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "address-book-web-generator", "address-book-web-generator\address-book-web-generator.csproj", "{2E12D4BB-DD4C-4C2F-A0F0-AF23BCE2AC3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{66B2F1F1-F01D-420D-8C76-1B248D082C0E} = {66B2F1F1-F01D-420D-8C76-1B248D082C0E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{66B2F1F1-F01D-420D-8C76-1B248D082C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66B2F1F1-F01D-420D-8C76-1B248D082C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66B2F1F1-F01D-420D-8C76-1B248D082C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E12D4BB-DD4C-4C2F-A0F0-AF23BCE2AC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E12D4BB-DD4C-4C2F-A0F0-AF23BCE2AC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E12D4BB-DD4C-4C2F-A0F0-AF23BCE2AC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E12D4BB-DD4C-4C2F-A0F0-AF23BCE2AC3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

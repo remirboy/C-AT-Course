@@ -85,7 +85,7 @@ namespace address_book_web.Helpers
         public Contact GetContactInformationFromContactPage()
         {
             Contact contact = new Contact();
-            OpenContactPage(2);
+            OpenContactPage(3);
             string contactInfo = driver.FindElement(By.XPath("//*[@id=\"content\"]")).Text;
             string[] contactInfoArray = contactInfo.Split(' ');
 
@@ -147,7 +147,7 @@ namespace address_book_web.Helpers
 
         private string FindContactAttributeInformationFromTable(int elementIndex)
         {
-           return driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td["+elementIndex+"]")).Text;
+           return driver.FindElement(By.XPath("/html/body/div/div[4]/form[2]/table/tbody/tr[3]/td["+elementIndex+"]")).Text;
         }
 
         private string FindContactAttributeInformationFromEditForm(string name)

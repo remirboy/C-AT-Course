@@ -1,19 +1,24 @@
 ﻿using NUnit.Framework;
 using address_book_web.Models;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace address_book_web.Tests
 {
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        [Test]
-        public void GroupCreationTest()
+
+        private static IEnumerable<GroupData> GroupDataFromJsonFile()
         {
-            GroupData group = new GroupData();
-            group.GroupName = "Name";
-            group.GroupHeader = "Header";
-            group.GroupFooter = "Footer";
+            return JsonConvert.DeserializeObject<List<GroupData>>(
+                File.ReadAllText(@"groups.json"));
+        }
+
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
+        public void GroupCreationTest(GroupData group)
+        {
 
             app.NavigationHelper.OpenGroupsPage();
             List<GroupData> oldGroups = app.GroupHelper.GetGroupsList();
