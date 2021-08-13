@@ -1,4 +1,6 @@
-﻿using System;
+﻿using address_book_web.DBModels;
+using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>,IComparable<GroupData> 
     {
         private string groupName;
         private string groupHeader;
         private string groupFooter;
 
+        [Column(Name = "group_id"),PrimaryKey,Identity]
+        public string Id { get; set; }
+
+        [Column(Name = "group_name")]
         public string GroupName
         {
             get
@@ -24,6 +31,7 @@ namespace address_book_web.Models
             }
         }
 
+        [Column(Name = "group_header")]
         public string GroupHeader
         {
             get
@@ -36,6 +44,7 @@ namespace address_book_web.Models
             }
         }
 
+        [Column(Name = "group_footer")]
         public string GroupFooter
         {
             get
@@ -61,6 +70,14 @@ namespace address_book_web.Models
         }
 
         public GroupData() { }
+
+        public static List<GroupData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups select g).ToList();
+            }
+        }
 
         public int CompareTo(GroupData group)
         {

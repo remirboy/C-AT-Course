@@ -3,6 +3,9 @@ using address_book_web.Models;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
+using System;
+using System.Linq;
+using address_book_web.DBModels;
 
 namespace address_book_web.Tests
 {
@@ -64,6 +67,20 @@ namespace address_book_web.Tests
             app.NavigationHelper.OpenHomePage();
 
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
+        }
+
+        [Test]
+        public void DBConnectionTest()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUI = app.GroupHelper.GetGroupsList();
+            DateTime end = DateTime.Now;
+            Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDB = GroupData.GetAll();
+            end = DateTime.Now;
+            Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }
