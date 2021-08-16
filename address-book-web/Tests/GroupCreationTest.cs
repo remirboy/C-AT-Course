@@ -70,7 +70,7 @@ namespace address_book_web.Tests
         }
 
         [Test]
-        public void DBConnectionTest()
+        public void UiAndDdGroupsEqualsTest()
         {
             DateTime start = DateTime.Now;
             List<GroupData> fromUI = app.GroupHelper.GetGroupsList();
@@ -81,6 +81,9 @@ namespace address_book_web.Tests
             List<GroupData> fromDB = GroupData.GetAll();
             end = DateTime.Now;
             Console.Out.WriteLine(end.Subtract(start));
+            fromDB.Sort();
+            fromUI.Sort();
+            Assert.AreEqual(fromUI, fromDB);
         }
     }
 }

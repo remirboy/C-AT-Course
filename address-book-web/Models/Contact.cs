@@ -1,4 +1,6 @@
-﻿using System;
+﻿using address_book_web.DBModels;
+using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +8,33 @@ using System.Threading.Tasks;
 
 namespace address_book_web.Models
 {
+    [Table(Name = "addressbook")]
     public class Contact : IEquatable<Contact>, IComparable<Contact>
     {
+        [Column(Name = "id"),PrimaryKey,Identity]
+        public string Id { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone {get;set;}
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+        [Column(Name = "email")]
         public string Email1 { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+
         public string Emails
         {
             get
@@ -39,8 +59,10 @@ namespace address_book_web.Models
             }
         }
 
+        [Column(Name = "firstname")]
         public string Name { get; set; }
 
+        [Column(Name = "lastname")]
         public string LastName { get; set; } 
 
         public Contact(string name, string lastName)
@@ -63,6 +85,14 @@ namespace address_book_web.Models
                 return "";
             }
             return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("+", "");
+        }
+
+        public static List<Contact> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Contacts select g).ToList();
+            }
         }
 
         public int CompareTo(Contact contact)

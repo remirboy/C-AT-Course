@@ -13,5 +13,7 @@ namespace address_book_web.DBModels
         public AddressBookDB() : base("AddressBook") { }
         
         public ITable<GroupData> Groups { get { return GetTable<GroupData>(); } }
+
+        public ITable<Contact> Contacts { get { return GetTable<Contact>(); } }
     }
 }

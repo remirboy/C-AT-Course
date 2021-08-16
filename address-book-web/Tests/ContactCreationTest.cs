@@ -87,5 +87,22 @@ namespace address_book_web.Tests
             Contact contactTable = app.ContactHelper.GetContactInformationFromTable();
             Assert.AreEqual(contactForm, contactTable);
         }
+
+        [Test]
+        public void UiAndDdContactsEqualsTest()
+        {
+            DateTime start = DateTime.Now;
+            List<Contact> fromUI = app.ContactHelper.GetContactsList();
+            DateTime end = DateTime.Now;
+            Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<Contact> fromDB = Contact.GetAll();
+            end = DateTime.Now;
+            Console.Out.WriteLine(end.Subtract(start));
+            fromDB.Sort();
+            fromUI.Sort();
+            Assert.AreEqual(fromUI, fromDB);
+        }
     }
 }
