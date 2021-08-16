@@ -70,7 +70,7 @@ namespace address_book_web.Tests
         }
 
         [Test]
-        public void UiAndDdGroupsEqualsTest()
+        public void UiAndDbGroupsEqualsTest()
         {
             DateTime start = DateTime.Now;
             List<GroupData> fromUI = app.GroupHelper.GetGroupsList();

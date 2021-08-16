@@ -35,6 +35,13 @@ namespace address_book_web.Helpers
                 driver.Navigate().GoToUrl(baseURL + "addressbook/edit.php");
         }
 
+        public void OpenNoneContactsPage()
+        {
+            driver.Navigate().GoToUrl(baseURL + "addressbook/?group=[none]");
+        }
+
+
+
         private bool IsPageOpen(string page)
         {
             if (driver.Url == baseURL + page)

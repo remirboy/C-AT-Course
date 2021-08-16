@@ -89,7 +89,7 @@ namespace address_book_web.Tests
         }
 
         [Test]
-        public void UiAndDdContactsEqualsTest()
+        public void UiAndDbContactsEqualsTest()
         {
             DateTime start = DateTime.Now;
             List<Contact> fromUI = app.ContactHelper.GetContactsList();

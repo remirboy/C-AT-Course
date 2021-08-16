@@ -79,6 +79,18 @@ namespace address_book_web.Models
             }
         }
 
+        public List<Contact> GetContactsByGroup()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.ContactsInGroup
+                        .Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                        select c).Distinct().ToList();
+            }
+        }
+
+
         public int CompareTo(GroupData group)
         {
             if (Object.ReferenceEquals(null, group))

@@ -15,5 +15,7 @@ namespace address_book_web.DBModels
         public ITable<GroupData> Groups { get { return GetTable<GroupData>(); } }
 
         public ITable<Contact> Contacts { get { return GetTable<Contact>(); } }
+
+        public ITable<ContactsInGroup> ContactsInGroup { get { return GetTable<ContactsInGroup>(); } }
     }
 }
